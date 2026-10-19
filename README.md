@@ -92,3 +92,4 @@ Truy cập trình duyệt tại: **`http://127.0.0.1:8000`** để bắt đầu 
 1. Mở thẻ **"Cài Đặt & Check API Key"** trên giao diện Web UI (`http://127.0.0.1:8000`).
 2. Dán API Key OpenAI-compatible (hoặc từ cổng `api.buihuuthang.com`).
 3. Nhấn **Lưu & Test Key** để kích hoạt!
+# app-ai-video-studio

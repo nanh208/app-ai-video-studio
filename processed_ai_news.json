@@ -1,0 +1,166 @@
+{
+  "processed_ids": [
+    "470abbedd870",
+    "2408c606f5b1",
+    "a63e33931ba0",
+    "6a594409974e",
+    "0dfd41f07c84",
+    "642c10e51890",
+    "16843f56a3d7",
+    "78240d84159b",
+    "6c6af65c3dcf",
+    "309cfb7299f3",
+    "99d0b8374894",
+    "a261b55a90de",
+    "9f3d63820179",
+    "39b805722e06",
+    "0ef7ce57208e",
+    "f0fb6eadd48a"
+  ],
+  "items": [
+    {
+      "id": "470abbedd870",
+      "title": "OpenAI updates ChatGPT with interactive graphics",
+      "source": "Mashable",
+      "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPeWZkNVpZQkJLSWktd2Y5d2FpRS1oRGJMWjF4czY5M0JSRDlSc054cnhVSXFEM0ZfaXU2azk5cEw3Qi1NaW1xbktWcVVneUpxckdHbjVLcTduR0FJTS1naEJaYWt6YW9YMVM4TGpsZ3F0N2wzbVVJNE1mNUNWV2RQOUpyV2RDeUw4ekRv?oc=5",
+      "video_url": "/videos/auto_ai_news_1792178663.mp4",
+      "video_name": "auto_ai_news_1792178663.mp4",
+      "created_at": "2026-10-17 02:28:23"
+    },
+    {
+      "id": "2408c606f5b1",
+      "title": "Anthropic quietly pitches its own AI safety bill to lawmakers",
+      "source": "Politico",
+      "link": "https://news.google.com/rss/articles/CBMieEFVX3lxTE0ydWVrbHdHeGNraEdTSHQ5eExwZ2lLRUU1U1BoVFJUTWNLenpWTXJOMHNnWnhaa0thQXlRbk1KdEliVVVGUEJXZWwtcWtUZE9Ielo2X05DaHJKSmJpd05rRl9vMWdQQUE4ZnVRRFBLQ3hlcm9FNG12bg?oc=5",
+      "video_url": "/videos/auto_ai_news_1792196496.mp4",
+      "video_name": "auto_ai_news_1792196496.mp4",
+      "created_at": "2026-10-17 07:23:19"
+    },
+    {
+      "id": "a63e33931ba0",
+      "title": "Claude reveals ECDSA curve origins",
+      "source": "Anthropic",
+      "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFBlZU9PaGR2ZHhuYnpFb1R2cWp1NnZmV3BtaWRSRmg3cVJOamplNG56dWM3andnUFFmU1NSZzdqVUdBU2IzZG5MeGV2ZjZ5NmVQWFE3S0xQUEVxX3F4dkpTdk5GaDg?oc=5",
+      "video_url": "/videos/auto_ai_news_1792202795.mp4",
+      "video_name": "auto_ai_news_1792202795.mp4",
+      "created_at": "2026-10-17 09:07:34"
+    },
+    {
+      "id": "6a594409974e",
+      "title": "Replit is no longer working with Anthropic, CEO says",
+      "source": "TechCrunch",
+      "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxOUlVYN3JyLXhSRWZheGhuRXJkMHVUZlladnZDUEZha3lzZlJ5cXZyQ2R3aGxDZFlHUXgxc0VSQkJkeThQelUtMzk5R09aWHJmVGtXVm5yeTdsV3NZT0cxMzZVMERLc0R2QmY5MS1VLUJ1dWw2WExxQUNIRXVCWFRjZE1uSks2QlQ1RHZEc3ZHWQ?oc=5",
+      "video_url": "/videos/auto_ai_news_1792202884.mp4",
+      "video_name": "auto_ai_news_1792202884.mp4",
+      "created_at": "2026-10-17 09:08:49"
+    },
+    {
+      "id": "0dfd41f07c84",
+      "title": "OpenAI models hacked a crypto wallet and breached more websites",
+      "source": "Ars Technica",
+      "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQQkxhdi15T3hFNFNIcHQxbEx4TGZnNm5wakhGVE50UmlCRlBKRnZUcHdHRkZvQkZZZF9udjNVcXFkY0l2ZGsxaDVVTHNRbHc0MWhMbi1SQXNuTElhSFF4eG9jeHlaNF9xYk90Nl9YQzlhbmdOSzhoME03cHBad2pDSHMwS0Iza09OdW94cnVNbmloeERMRk5iSHdiNHlFaDNWSU9QMU5iWjc?oc=5",
+      "video_url": "/videos/auto_ai_news_1792205902.mp4",
+      "video_name": "auto_ai_news_1792205902.mp4",
+      "created_at": "2026-10-17 09:59:55"
+    },
+    {
+      "id": "642c10e51890",
+      "title": "Exclusive: Anthropic CEO calls for stronger regulation of AI - ABC News",
+      "source": "Breaking News, Latest News and Videos",
+      "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNTnFDeXdUaGRRY3FzRWFMbVpRbFBrVXVhOHNDWDRMaFQ1T1kzclBENEtWa3R5UDBDQktzb3Z3N0FYUjJsejBwZUY5eURuejdvaFg4eXJrSndRLWdvTGtDcVdwOFdXeHZlVWo4eXJDc3ZGWlg0aTZwak1ySWwtS3hkSzNmdVR3MEhGXzdGRDRjV3dpMzVTOFhDX0o1Z3FBSDBqamfSAacBQVVfeXFMTzVVZEpXZk9NbHhzV241am1weGozclJlMUV6WFd1VFFQSnhoLXhibFlnVnNQaGRsUm5QNjFtT2F4ZXdQUk9BN0VCbHgweEUySVhkMjRHZDROSmRoem1FUGwzTXVVd2wxZWkycDdWZld1RW5JaFJJd0tQMkx2VlkwNG9wS3Z6blByVkFpLV9lbEhjMjNSTDdoQzROTDhPbnlGbTdlRHJIUE0?oc=5",
+      "video_url": "/videos/auto_ai_news_1792206132.mp4",
+      "video_name": "auto_ai_news_1792206132.mp4",
+      "created_at": "2026-10-17 10:03:21"
+    },
+    {
+      "id": "16843f56a3d7",
+      "title": "Stack Overflow for Agents triples signups with ChatGPT plugin",
+      "source": "OpenAI",
+      "link": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE5XWktKRmU0bnRhVC1LejhhZTFxbjNKS1NkcTBPeDM2dUFKQm1SVXFlWnBJRGUydWFtMUMxRjRZelI0TU9kc2xKQWJhYktVb1BzNTg5ZmZyY293M2pCZ2NoTmQyX0dYUQ?oc=5",
+      "video_url": "/videos/auto_ai_news_1792210921.mp4",
+      "video_name": "auto_ai_news_1792210921.mp4",
+      "created_at": "2026-10-17 11:23:28"
+    },
+    {
+      "id": "78240d84159b",
+      "title": "How employment is changing at Anthropic",
+      "source": "Anthropic",
+      "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1mOWJENVFMYm9BOWdRbjJXSllRMVJ3ZXh6RkMwQmJlWElqUU9TTENEamlIanRkSXE4UnRaRDROSnZNTXBGM0NoVGNDWkpXZEtrUHRzdlFNSEhVVjBjalloX1ZTQm5LX2RKRXc?oc=5",
+      "video_url": "/videos/auto_ai_news_1792212568.mp4",
+      "video_name": "auto_ai_news_1792212568.mp4",
+      "created_at": "2026-10-17 11:50:18"
+    },
+    {
+      "id": "6c6af65c3dcf",
+      "title": "Anthropic offers Blackstone double-digit yield in chip-financing deal, FT reports",
+      "source": "Reuters",
+      "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQWVhYcEpDM002Y1VwaUFBYktyNFdkVG9XbXZaTU44b3k4ZzZRcmdLR294VXZkMDlYLXg1d0dJbUpoMzg3RHBoNi1qcXh1eU14UjJiSmNhTXdUUFNsakJYZFBrZ1BZVV9rdmQ3bHc5b0QycjZRUHBqcENmak5LclBVNmhWYnhTaVZtQzV4bExZamxKSEtDRllrMkNObjlFd3VoU0VIQkZaS2hpQnAzeGh3dzBqdWVHZm9sVllvQ1BEdw?oc=5",
+      "video_url": "/videos/auto_ai_news_1792216045.mp4",
+      "video_name": "auto_ai_news_1792216045.mp4",
+      "created_at": "2026-10-17 12:49:45"
+    },
+    {
+      "id": "309cfb7299f3",
+      "title": "Anthropic offers Blackstone double-digit yield in latest chip financing",
+      "source": "Financial Times",
+      "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOYmFpNlpUSHlsQlNoUVJMUVlfMXN1MjlOcElmRzVOT3RlbC1haEJNY3hsSXFpeUNrZDFHQ3FCeVZITjJaRV9BcUZsQlZ4MFlieEVjVTN2UEYxSDB5MUlPM1NrUWx6NjVOQ1NzMXpBMGo4bWRjdTMxc0t2UWRyQjFhOHlFWWE?oc=5",
+      "video_url": "/videos/auto_ai_news_1792219208.mp4",
+      "video_name": "auto_ai_news_1792219208.mp4",
+      "created_at": "2026-10-17 13:42:51"
+    },
+    {
+      "id": "99d0b8374894",
+      "title": "States sue AI giant OpenAI, saying its popular chatbot is hurting children and deceiving adults",
+      "source": "AP News",
+      "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPOFdMbjctMUxlYlQ0VnBoa3Jpc09HdE9CWlM5b1NjbzhLZ2YwWWUtbTVucWVuMDZwRWozUmNUajh4bm45MjlZY0xiVHdxczJHQW5UZG9NdXEzLUVQaFZlUTB6cW53bVg5MUdpWExJRU5aYzRwVjNTMkY3U0NycUpsaEhRaHZ0cEw3N0xoTFpCZWZTemdsYkFJcGVCVVNhMjVLdmhJZUMyWWd3YTQxemh3MmZ6UHZiZw?oc=5",
+      "video_url": "/videos/auto_ai_news_1792222409.mp4",
+      "video_name": "auto_ai_news_1792222409.mp4",
+      "created_at": "2026-10-17 14:34:42"
+    },
+    {
+      "id": "a261b55a90de",
+      "title": "Anthropic says its AI models hacked 3 organizations on their own during tests - ABC News",
+      "source": "Breaking News, Latest News and Videos",
+      "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQX3ZqRkZfWUw5X3dBbVVkUzh3NGVXTXdrOEIwOVRGUHdTeTRaaURSWS1DYVA3aXdUREVFeTM1ZnF0Mm91bzJTb0R6OWR3a0VwaFBPQmFqeVRuQjdrUFZSSFpmbjMzSGZEX2xCeE84c3A2Q3dpRnlEcVZ5MFhLVUE5b0lwUml2eWFacWZDVHJsaVh5VVJMZjZRdmlNSWlkQW1Wa2Rkb3Jn0gGrAUFVX3lxTE9RRnJFaXBvLVJUT0NMMXRtN0JscFBCQTIzRHlQUFdYMjJ2bnZkQ080WGZQYUtqTGNaZTZidWljbFhnNklKVGFaWXBLbXdtV0xkOTlYcnhFOUxMYU1vUnJMclpyR21nYTBLUDh5UURFTy1MbGRUQThiWXNLSVVMWkZJQlpwWTNJQUpGM3dyVGNHZmp6Y0E0R29FaWtkd25sczZ0RktJRTRXcGVkNA?oc=5",
+      "video_url": "/videos/auto_ai_news_1792225960.mp4",
+      "video_name": "auto_ai_news_1792225960.mp4",
+      "created_at": "2026-10-17 15:35:13"
+    },
+    {
+      "id": "9f3d63820179",
+      "title": "SATURDAY MORNING WITH CRANKY DON JOE | Larry Introduced Me to Artificial Intelligence, and Now I Have Questions",
+      "source": "MinneapoliMedia",
+      "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOWmM0SEUyY20yZ0xvM3VLYVB6aGFmX1VyMEM5TUxUN3NhOHNYNmVlLUFfekU5VjQ4RjR5c0VmNEhWempZcnFYeVBfdzIzWV9CZ1JhSlAyMUNqTVdYaHQyeUNGR2ZEc0pVSVl0bzM3MUNsR0xVMXIxMVJqOEtxMlBua3d0NDkyaVR6QU5WbW1faE96NzYwN3N1LVJxZXRxTm96anphODAyb1paWUZCaUtsbFEya0FDYUk5VTI4d0RNYw?oc=5",
+      "video_url": "/videos/auto_ai_news_1792228593.mp4",
+      "video_name": "auto_ai_news_1792228593.mp4",
+      "created_at": "2026-10-17 16:17:53"
+    },
+    {
+      "id": "39b805722e06",
+      "title": "OpenAI CEO Sam Altman's home struck by gunfire, days after Molotov cocktail attack: Police - ABC News",
+      "source": "Breaking News, Latest News and Videos",
+      "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOYlk3cFJkWnNMMHloVFZSQ2pIelpHUWxJbndOeWdiUVcxdXBncjcxdmU3cEUtczJBSV82MUc0LTFRdkJ4NmZpZmZUMUdmU1NJc3hMSlRUSU43RW5VN1pjVzJqSm83OWZiakt4TTQ0bHgwR0hYVkJUaTB1QUlnRUxFQzB1YngzOVoxS0pOYkFzUHpHQVFvcHN1SjFVONIBoAFBVV95cUxOSmg3TE42d3BRemlRWXU4al9ZU0p5eEtCeE4yNzNiaE1oTDB5MHZBMDVDNTUxUjl0dzdma2VWcDkyTUNMRnJoNlJobXNLU0t6NUdXbXNkMWdUa2NDUk4xZ2loSjY2TURtTXkxMTNtd3ptU1VUemYyVG93QWt1ZkNvdEp1aDQ4UVY5RDRwUXRSRGZsdmNJalpyeHVBRkxpbW1v?oc=5",
+      "video_url": "/videos/auto_ai_news_1792230729.mp4",
+      "video_name": "auto_ai_news_1792230729.mp4",
+      "created_at": "2026-10-17 16:59:28"
+    },
+    {
+      "id": "0ef7ce57208e",
+      "title": "Anthropic's Clark says AI's impact accelerating quickly and could vastly boost US GDP",
+      "source": "Yahoo Finance",
+      "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxPbWtvRm9GMV9WQV90M25SSXpwUGJNQjlOTGFYa3MyZ2FoTklpRWRxVkllRnZFSVdRTDNFc2FnZWFKYTA4QUVCRUtLNkNIMGRkYXNrZjg0R1Y0SzFOSjNXNDFTWlB3RE1UcWROT0tNd3RLekRUT29uYjNKcE1PbnRvek5iTWc0YkVHWWFPc2tYdzZkekhp?oc=5",
+      "video_url": "/videos/auto_ai_news_1792231805.mp4",
+      "video_name": "auto_ai_news_1792231805.mp4",
+      "created_at": "2026-10-17 17:11:13"
+    },
+    {
+      "id": "f0fb6eadd48a",
+      "title": "DeepSeek releases updated V4.1-Flash model it says completes tasks faster",
+      "source": "SiliconANGLE",
+      "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNTVpONkFFTks2bFROQXBrcHBJb1BGczJIbUtaU3hhdTl0Q2M0U1JUWllzUlRzdEJZM3o4UE9UbWFTUlpoQjRIQjY3clhteDRaOFU3emRReDZHVE9NVlBpNlBoMWFzZjIzOXBxazA2TFJhRVRPQ1RHZW9KbDV1MEhwTm1vTW5IVGc1MkdOd1NPaERJbWJRb1JIbDBnLWYwRjAyR251T0hTRkg3d0tCRmF3?oc=5",
+      "video_url": "/videos/auto_ai_news_1792374737.mp4",
+      "video_name": "auto_ai_news_1792374737.mp4",
+      "created_at": "2026-10-19 09:10:58"
+    }
+  ]
+}

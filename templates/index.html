@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Video Studio - Hinton & Douyin Remake</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0B0F19;
+      --card: #131B2E;
+      --border: #1E293B;
+      --primary: #38BDF8;
+      --primary-hover: #0EA5E9;
+      --accent: #F5C518;
+      --accent-neon: #FFE600;
+      --text: #F8FAFC;
+      --text-muted: #94A3B8;
+      --success: #10B981;
+      --danger: #EF4444;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+    
+    /* Header */
+    header {
+      background: rgba(19, 27, 46, 0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo-box { display: flex; align-items: center; gap: 12px; }
+    .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #FFE600, #F59E0B); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+    .logo-title { font-weight: 800; font-size: 19px; letter-spacing: -0.02em; }
+    .logo-sub { font-size: 12px; color: var(--text-muted); }
+    .header-actions { display: flex; align-items: center; gap: 14px; }
+    .btn-studio {
+      background: #1E293B;
+      border: 1px solid #334155;
+      color: #38BDF8;
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 13px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-studio:hover { background: #38BDF8; color: #000; }
+    .badge-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      background: rgba(16, 185, 129, 0.15);
+      color: #34D399;
+      padding: 6px 12px;
+      border-radius: 20px;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .badge-dot { width: 8px; height: 8px; border-radius: 50%; background: #34D399; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.3); } 100% { opacity: 1; transform: scale(1); } }
+
+    /* Main Container */
+    .container { max-width: 1280px; margin: 0 auto; padding: 28px 24px; width: 100%; flex: 1; }
+
+    /* Tabs */
+    .tabs-header { display: flex; gap: 12px; border-bottom: 1px solid var(--border); margin-bottom: 24px; }
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 12px 20px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover { color: #FFF; }
+    .tab-btn.active { color: var(--accent-neon); }
+    .tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--accent-neon);
+      border-radius: 3px 3px 0 0;
+    }
+    .tab-pane { display: none; }
+    .tab-pane.active { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 28px; }
+
+    /* Cards */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    }
+    .card-title { font-size: 18px; font-weight: 700; margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
+    .form-group { margin-bottom: 18px; }
+    .form-label { display: block; font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; }
+    .form-control, .form-select {
+      width: 100%;
+      background: #0B0F19;
+      border: 1px solid #1E293B;
+      color: var(--text);
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-control:focus, .form-select:focus { border-color: var(--primary); }
+    textarea.form-control { resize: vertical; min-height: 120px; line-height: 1.6; }
+    .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    /* Buttons */
+    .btn-primary {
+      width: 100%;
+      background: linear-gradient(135deg, #FFE600, #F59E0B);
+      color: #000;
+      border: none;
+      padding: 14px 24px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.2s;
+      box-shadow: 0 4px 20px rgba(245, 197, 24, 0.35);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(245, 197, 24, 0.5);
+    }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    /* Preview Column */
+    .preview-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #0B0F19;
+      border-radius: 16px;
+      border: 1px dashed #1E293B;
+      padding: 24px;
+      min-height: 480px;
+      justify-content: center;
+      text-align: center;
+    }
+    .video-viewport {
+      width: 270px;
+      height: 480px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #000;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      border: 2px solid #334155;
+      position: relative;
+    }
+    .video-viewport video { width: 100%; height: 100%; object-fit: cover; }
+
+    /* Progress box */
+    .progress-box {
+      margin-top: 18px;
+      width: 100%;
+      background: #0B0F19;
+      border-radius: 12px;
+      padding: 16px;
+      border: 1px solid #1E293B;
+      display: none;
+    }
+    .progress-bar-wrap {
+      height: 8px;
+      background: #1E293B;
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 10px 0;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(90deg, #FFE600, #38BDF8);
+      border-radius: 4px;
+      animation: indeterminate 1.8s infinite linear;
+    }
+    @keyframes indeterminate {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    /* Gallery */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .gallery-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .gallery-thumb {
+      height: 340px;
+      background: #000;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .gallery-thumb video { width: 100%; height: 100%; object-fit: cover; }
+    .gallery-meta { font-size: 13px; color: var(--text-muted); display: flex; justify-content: space-between; }
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #1E293B;
+      color: #F8FAFC;
+      border: 1px solid #334155;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-download:hover { background: #FFE600; color: #000; }
+    .chip-btn {
+      background: #1E293B;
+      color: #E2E8F0;
+      border: 1px solid #334155;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .chip-btn:hover { background: #F5C518; color: #000; border-color: #F5C518; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo-box">
+      <div class="logo-icon">🎬</div>
+      <div>
+        <div class="logo-title">AI Video Studio</div>
+        <div class="logo-sub">OpenMontage & Douyin/TikTok Remake Engine</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <div class="badge-status">
+        <span class="badge-dot"></span> Remotion Studio 3000 Active
+      </div>
+      <button onclick="switchTab('settings')" class="btn-studio" style="background: rgba(56, 189, 248, 0.15); border: 1px solid #38BDF8; color: #38BDF8; cursor: pointer;">
+        ⚙️ Cài Đặt & Check API Key
+      </button>
+      <a href="http://localhost:3000" target="_blank" class="btn-studio">
+        🎨 Mở Remotion Studio
+      </a>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- THIRD-PARTY API GATEWAY SETTINGS (api.buihuuthang.com) -->
+    <div class="card" style="margin-bottom: 20px; background: rgba(15, 23, 42, 0.9); border: 1px solid #334155; padding: 14px 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 22px;">🔑</span>
+          <div>
+            <div style="font-size: 14px; font-weight: 700; color: #E2E8F0;">Cổng API Tổng (api.buihuuthang.com)</div>
+            <div style="font-size: 11px; color: #94A3B8;">Kích hoạt GPT-4o / Claude 3.5 / Gemini để tự động viết kịch bản thông minh & sinh ảnh AI</div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; flex: 1; max-width: 580px;">
+          <input type="password" id="buihuuthang-key-input" class="form-control" style="font-size: 13px; padding: 8px 14px; background: #0B0F19; border: 1px solid #334155;" placeholder="Dán API Key (sk-...) từ api.buihuuthang.com vào đây...">
+          <button class="btn-primary" style="padding: 8px 16px; font-size: 13px; width: auto; white-space: nowrap; background: #38BDF8; color: #000; border: none; font-weight: 700;" onclick="saveBuiHuuThangKey()">
+            💾 Lưu & Test Key
+          </button>
+        </div>
+        <div id="buihuuthang-status-pill" style="font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 20px; background: rgba(148, 163, 184, 0.1); color: #94A3B8; border: 1px solid #334155;">
+          Đang kiểm tra...
+        </div>
+      </div>
+    </div>
+
+    <!-- 1-CLICK PROMPT-TO-VIDEO BAR -->
+    <div class="card" style="margin-bottom: 24px; background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95)); border: 2px solid #F5C518; box-shadow: 0 0 35px rgba(245, 197, 24, 0.2);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 24px;">✨</span>
+          <span style="font-size: 18px; font-weight: 800; color: #FFE600; letter-spacing: 0.02em;">TỰ ĐỘNG HÓA 100% - CHỈ CẦN 1 CÂU LỆNH</span>
+        </div>
+        <span style="font-size: 12px; color: #94A3B8; background: #0B0F19; padding: 4px 10px; border-radius: 12px; border: 1px solid #334155;">Tự viết kịch bản • Tự chọn video • Giọng đọc AI • Render 1080x1920</span>
+      </div>
+
+      <div style="display: flex; gap: 12px; align-items: center;">
+        <input type="text" id="auto-prompt-input" class="form-control" style="font-size: 15px; padding: 14px 18px; border: 1px solid #F5C518; background: #0B0F19;" placeholder="Nhập 1 câu ý tưởng, ví dụ: 'Trào lưu mua sắm China Haul' hoặc 'Cảnh báo AI mất kiểm soát' hoặc dán link bài báo..." onkeydown="if(event.key==='Enter') submitAutoPrompt()">
+        <button id="btn-submit-auto" class="btn-primary" style="width: auto; min-width: 250px; padding: 14px 24px; font-size: 15px; white-space: nowrap;" onclick="submitAutoPrompt()">
+          ⚡ TỰ ĐỘNG TẠO VIDEO
+        </button>
+      </div>
+
+      <!-- Quick Suggestion Chips -->
+      <div style="margin-top: 12px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+        <span style="font-size: 12px; color: #94A3B8; font-weight: 600;">Gợi ý 1-Click:</span>
+        <button type="button" class="chip-btn" onclick="quickFillPrompt('Trào lưu mua sắm China Haul gây sốt toàn cầu')">🛍️ Trào lưu China Haul</button>
+        <button type="button" class="chip-btn" onclick="quickFillPrompt('Cảnh báo AI mất kiểm soát từ CEO Microsoft')">🤖 Cảnh báo AI Microsoft</button>
+        <button type="button" class="chip-btn" onclick="quickFillPrompt('Tesla ra mắt xe địa hình điện Cyberquad độc lạ')">⚡ Xe điện địa hình Tesla</button>
+        <button type="button" class="chip-btn" onclick="quickFillPrompt('https://vnexpress.net/thu-tuong-yeu-cau-day-nhanh-chuyen-doi-so-quoc-gia-4852912.html')">📰 Dán link bài báo</button>
+      </div>
+
+      <!-- Auto Progress Box -->
+      <div id="auto-progress" class="progress-box" style="margin-top: 14px; border-color: #F5C518;">
+        <div style="display:flex; justify-content: space-between; font-size: 14px; font-weight:700; color: #FFE600;">
+          <span id="auto-log-text">Đang phân tích câu lệnh của bạn...</span>
+          <span id="auto-timer">00:00</span>
+        </div>
+        <div class="progress-bar-wrap" style="height: 10px;">
+          <div class="progress-bar" style="background: linear-gradient(90deg, #FFE600, #F59E0B, #38BDF8);"></div>
+        </div>
+        <div style="font-size: 12px; color: #94A3B8;">
+          Hệ thống AI tự động thực hiện trọn gói 4 bước: Viết kịch bản ➔ Chọn video & chữ giật 2 tầng ➔ Lồng tiếng Edge-TTS ➔ Render Remotion Full HD.
+        </div>
+      </div>
+    </div>
+
+    <!-- AUTONOMOUS AI NEWS CRAWLER BUTTON -->
+    <div class="card" style="margin-bottom: 24px; background: linear-gradient(135deg, #1E1B4B, #0F172A); border: 2px solid #818CF8; box-shadow: 0 0 40px rgba(129, 140, 248, 0.25);">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #6366F1, #818CF8); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);">
+            🤖
+          </div>
+          <div>
+            <div style="font-size: 19px; font-weight: 800; color: #FFF; letter-spacing: -0.01em;">
+              ROBOT QUÉT TIN AI THẾ GIỚI & TỰ DỰNG VIDEO (ZERO-INPUT)
+            </div>
+            <div style="font-size: 13px; color: #94A3B8; margin-top: 3px;">
+              Tự quét báo chí quốc tế ➔ Lọc tin chưa từng làm (không bao giờ trùng) ➔ Tự viết kịch bản ➔ Tự dựng video Full HD
+            </div>
+          </div>
+        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+          <select id="crawl-duration-select" class="form-select" style="width: auto; min-width: 180px; background: #0B0F19; border: 1px solid #818CF8; color: #FFF; font-weight: 600; padding: 14px 14px; border-radius: 10px;">
+            <option value="60">⚡ 60s (Tin vắn)</option>
+            <option value="90">⏱️ 90s (Bản tin tiêu chuẩn)</option>
+            <option value="120" selected>🎬 120s / 2 phút (Phân tích chuyên sâu ⭐)</option>
+            <option value="180">🏆 180s / 3 phút (Phóng sự toàn diện)</option>
+          </select>
+          <button id="btn-submit-crawl" class="btn-primary" style="width: auto; min-width: 250px; padding: 14px 24px; font-size: 15px; background: linear-gradient(135deg, #818CF8, #6366F1); color: #FFF; border: none; box-shadow: 0 4px 25px rgba(99, 102, 241, 0.5);" onclick="submitAutoCrawlNews()">
+            🚀 TỰ ĐỘNG QUÉT & TẠO VIDEO
+          </button>
+        </div>
+      </div>
+
+      <!-- Live status box for Crawler -->
+      <div id="crawl-progress" class="progress-box" style="margin-top: 16px; border-color: #818CF8;">
+        <div style="display:flex; justify-content: space-between; font-size: 14px; font-weight:700; color: #818CF8;">
+          <span id="crawl-log-text">Đang quét tin tức AI mới nhất trên thế giới...</span>
+          <span id="crawl-timer">00:00</span>
+        </div>
+        <div class="progress-bar-wrap" style="height: 10px;">
+          <div class="progress-bar" style="background: linear-gradient(90deg, #818CF8, #A78BFA, #38BDF8);"></div>
+        </div>
+        <div id="crawl-sub-log" style="font-size: 12px; color: #94A3B8;">
+          Hệ thống đang đối chiếu lịch sử để chọn tin chưa từng làm, dịch sang tiếng Việt và render tự động...
+        </div>
+      </div>
+    </div>
+
+    <div class="tabs-header">
+      <button class="tab-btn active" id="tab-btn-douyin" onclick="switchTab('douyin')">🔥 Tùy Chỉnh Remake Douyin</button>
+      <button class="tab-btn" id="tab-btn-news" onclick="switchTab('news')">⚡ Video Tin Tức 9:16 (Motion News)</button>
+      <button class="tab-btn" id="tab-btn-gallery" onclick="switchTab('gallery')">📁 Thư Viện Video Đã Xuất</button>
+      <button class="tab-btn" id="tab-btn-settings" onclick="switchTab('settings')" style="color: #38BDF8;">⚙️ Cài Đặt & Check API Key</button>
+    </div>
+
+    <!-- TAB 1: DOUYIN REMAKE -->
+    <div id="tab-douyin" class="tab-pane active">
+      <div class="card">
+        <div class="card-title">✨ Thiết Lập Video Remake</div>
+
+        <div class="form-group">
+          <label class="form-label">Chọn Video Tham Chiếu (Hỗ trợ 1 hoặc NHIỀU video B-Roll tự đổi cảnh)</label>
+          <select id="douyin-sample-select" class="form-select" onchange="onSelectSample(this.value)">
+            <option value="">-- Đang nạp danh sách video mẫu... --</option>
+          </select>
+          <div style="margin-top: 8px; display: flex; gap: 8px; align-items: center;">
+            <input type="text" id="douyin-video-path" class="form-control" placeholder="Đường dẫn file MP4, danh sách nhiều video (phân cách bằng dấu phẩy), hoặc thư mục...">
+            <input type="file" id="douyin-file-upload" accept="video/mp4,video/quicktime,video/webm" multiple style="display:none;" onchange="handleFileUpload(this)">
+            <button type="button" class="btn-studio" onclick="document.getElementById('douyin-file-upload').click()">📁 Chọn 1 Hoặc Nhiều Video</button>
+          </div>
+          <div style="font-size: 12px; color: #38BDF8; margin-top: 6px;">
+            🎬 <strong>Mẹo giữ chân 100%:</strong> Chọn mục <strong>"🔥 GHÉP NHIỀU VIDEO THAM CHIẾU"</strong> hoặc giữ Ctrl chọn nhiều file video. Hệ thống Remotion sẽ tự động cắt nhịp 2.5s - 3.5s đổi video tham chiếu 1 lần, giúp video cực kỳ cuốn hút!
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <label class="form-label" style="margin-bottom:0;">Kịch Bản Thuyết Minh Tiếng Việt</label>
+            <button type="button" style="background:none; border:none; color: var(--accent-neon); font-size:12px; cursor:pointer;" onclick="fillSampleScript()">Gợi ý kịch bản mẫu</button>
+          </div>
+          <textarea id="douyin-script" class="form-control" rows="5" placeholder="Nhập từng câu kịch bản tiếng Việt... Hệ thống sẽ tự động bắt các con số và từ khóa quan trọng để giật chữ lớn 2 tầng (Punch Text) và thanh vàng Highlight!"></textarea>
+        </div>
+
+        <div class="row-2">
+          <div class="form-group">
+            <label class="form-label">Nguồn Video (Capsule Pill)</label>
+            <input type="text" id="douyin-source" class="form-control" value="Nguồn: Douyin - #ChinaHaul">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Giọng Đọc & Tốc Độ</label>
+            <select id="douyin-voice" class="form-select">
+              <option value="vi-VN-NamMinhNeural|+20%">Nam Minh Neural (Nhanh +20% - Chuẩn Douyin)</option>
+              <option value="vi-VN-NamMinhNeural|+10%">Nam Minh Neural (+10%)</option>
+              <option value="vi-VN-HoaiMyNeural|+15%">Hoài My Neural (Nữ +15%)</option>
+            </select>
+          </div>
+        </div>
+
+        <button id="btn-submit-douyin" class="btn-primary" onclick="submitDouyinRemake()">
+          🚀 BẮT ĐẦU TẠO VIDEO REMAKE
+        </button>
+
+        <div id="douyin-progress" class="progress-box">
+          <div style="display:flex; justify-content: space-between; font-size: 13px; font-weight:600;">
+            <span id="douyin-log-text">Đang xếp hàng thực thi...</span>
+            <span id="douyin-timer">00:00</span>
+          </div>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar"></div>
+          </div>
+          <div style="font-size: 12px; color: var(--text-muted);">
+            Tự động tạo giọng đọc Edge-TTS, căn nhịp karaoke, tạo chữ giật 2 tầng và render Remotion 1080x1920...
+          </div>
+        </div>
+      </div>
+
+      <!-- Preview Column -->
+      <div class="preview-box">
+        <div class="video-viewport">
+          <video id="douyin-player" controls poster="/sample_frames/full_f02.jpg">
+            <source src="/videos/china_haul_remake_full.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div style="margin-top: 16px; text-align: center;">
+          <div style="font-weight: 700; font-size: 15px;" id="preview-title">china_haul_remake_full.mp4</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Định dạng 1080x1920 | 30 FPS</div>
+          <div style="margin-top: 12px; display: flex; gap: 8px; justify-content: center;">
+            <a id="btn-download-video" href="/videos/china_haul_remake_full.mp4" download class="btn-download">⬇️ Tải Video Về Máy</a>
+            <a href="http://localhost:3000" target="_blank" class="btn-download" style="background:#0F172A; border-color:#38BDF8; color:#38BDF8;">🎛️ Chỉnh Sửa Trong Studio</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: AI MOTION NEWS -->
+    <div id="tab-news" class="tab-pane">
+      <div class="card">
+        <div class="card-title">⚡ Tạo Video Tin Tức 9:16 Tự Động</div>
+        <div class="form-group">
+          <label class="form-label">URL Bài Báo Hoặc Nội Dung Tin Tức</label>
+          <textarea id="news-input" class="form-control" rows="5" placeholder="Dán link bài báo (VnExpress, Tuổi Trẻ...) hoặc dán đoạn tin tức tiếng Việt vào đây..."></textarea>
+        </div>
+        <div class="row-2">
+          <div class="form-group">
+            <label class="form-label">Theme Phong Cách Đồ Họa</label>
+            <select id="news-theme" class="form-select">
+              <option value="flat-motion-graphics">Bento HUD Dark (Công Nghệ / Phổ Biến)</option>
+              <option value="minimalist-diagram">Minimalist Red (Tối Giản Sắc Nét)</option>
+              <option value="anime-ghibli">Warm Editorial (Trang Nhã)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Giọng Đọc</label>
+            <select id="news-voice" class="form-select">
+              <option value="vi-VN-NamMinhNeural|+20%">Nam Minh Neural (+20%)</option>
+              <option value="vi-VN-HoaiMyNeural|+15%">Hoài My Neural (+15%)</option>
+            </select>
+          </div>
+        </div>
+        <button id="btn-submit-news" class="btn-primary" onclick="submitNews()">
+          ⚡ TẠO VIDEO TIN TỨC CHUYÊN NGHIỆP
+        </button>
+        <div id="news-progress" class="progress-box">
+          <div style="display:flex; justify-content: space-between; font-size: 13px; font-weight:600;">
+            <span id="news-log-text">Đang tạo video tin tức...</span>
+            <span id="news-timer">00:00</span>
+          </div>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="preview-box">
+        <div class="video-viewport">
+          <video id="news-player" controls>
+            <source src="/videos/news_1792173623/news_test.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div style="margin-top: 16px; text-align: center;">
+          <div style="font-weight: 700; font-size: 15px;" id="news-preview-title">news_test.mp4</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Khung HUD Bento Tin Tức + Sóng Âm Trực Tiếp</div>
+          <div style="margin-top: 12px; display: flex; gap: 8px; justify-content: center;">
+            <a id="btn-download-news" href="/videos/news_1792173623/news_test.mp4" download class="btn-download">⬇️ Tải Video Về Máy</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: GALLERY -->
+    <div id="tab-gallery" class="tab-pane" style="display:none; grid-template-columns: 1fr;">
+      <div class="card">
+        <div class="card-title">📁 Tất Cả Video Đã Xuất</div>
+        <div id="gallery-container" class="gallery-grid">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: SETTINGS & API KEY TESTER -->
+    <div id="tab-settings" class="tab-pane" style="display: none;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+        
+        <!-- Left Column: API Key Config & Connection Checker -->
+        <div class="card" style="border: 1px solid #38BDF8; box-shadow: 0 0 30px rgba(56, 189, 248, 0.15);">
+          <div class="card-title" style="display: flex; justify-content: space-between; align-items: center;">
+            <span>🔑 Cấu Hình Cổng API Tổng (api.buihuuthang.com)</span>
+            <span id="settings-status-badge" class="badge-status" style="background: rgba(148, 163, 184, 0.15); color: #94A3B8; border-color: #334155;">
+              Đang tải...
+            </span>
+          </div>
+
+          <div style="font-size: 13px; color: #94A3B8; margin-bottom: 20px; line-height: 1.5;">
+            Kết nối cổng API tổng của bên thứ ba để kích hoạt toàn bộ sức mạnh AI: tự động tóm tắt bài báo, viết kịch bản tiếng Việt 4 hồi cuốn hút bằng GPT-4o / Claude 3.5, và sinh ảnh minh họa AI.
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Base URL Gateway</label>
+            <input type="text" id="settings-base-url" class="form-control" value="https://api.buihuuthang.com/v1" placeholder="https://api.buihuuthang.com/v1">
+            <div style="font-size: 11px; color: #64748B; margin-top: 4px;">Chuẩn tương thích OpenAI API Base URL. Mặc định: <code>https://api.buihuuthang.com/v1</code></div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" style="display: flex; justify-content: space-between;">
+              <span>API Key (sk-...)</span>
+              <button type="button" onclick="toggleKeyVisibility()" style="background:none; border:none; color:#38BDF8; font-size:12px; cursor:pointer;">👁️ Hiện / Ẩn Key</button>
+            </label>
+            <input type="password" id="settings-api-key" class="form-control" placeholder="Dán mã khóa API của bạn tại đây (sk-...)...">
+            <div style="font-size: 11px; color: #64748B; margin-top: 4px;">Khóa được lưu bảo mật trong <code>OpenMontage/.env</code> trên máy cục bộ của bạn.</div>
+          </div>
+
+          <div style="display: flex; gap: 10px; margin-top: 24px;">
+            <button class="btn-primary" style="flex: 1; background: #38BDF8; color: #000; font-weight: 700;" onclick="handleSaveAndCheckKey()">
+              💾 Lưu & Kiểm Tra Kết Nối
+            </button>
+            <button class="btn-studio" style="color: #F87171; border-color: rgba(239, 68, 68, 0.4);" onclick="handleClearKey()">
+              🗑️ Xóa Key
+            </button>
+          </div>
+
+          <!-- Connection Diagnostic Info -->
+          <div id="settings-diagnostic-box" style="margin-top: 20px; padding: 14px; background: #0B0F19; border-radius: 8px; border: 1px solid #334155; font-size: 13px;">
+            <div style="font-weight: 700; color: #E2E8F0; margin-bottom: 8px;">📊 Kết Quả Chẩn Đoán Cổng API:</div>
+            <div id="settings-diagnostic-content" style="color: #94A3B8; font-family: monospace; font-size: 12px; line-height: 1.6;">
+              Chưa thực hiện kiểm tra. Hãy nhấn "Lưu & Kiểm Tra Kết Nối".
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Live Model Test & Available Models -->
+        <div class="card" style="border: 1px solid #334155;">
+          <div class="card-title">🧪 Test Gọi Thử Model Trực Tiếp</div>
+          <div style="font-size: 13px; color: #94A3B8; margin-bottom: 16px;">
+            Gửi 1 lệnh prompt ngắn tới gateway để kiểm tra độ phản hồi và thời gian trễ thực tế.
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Chọn Model Kiểm Tra</label>
+            <select id="settings-test-model" class="form-select">
+              <option value="deepseek-v4-flash">deepseek-v4-flash (Khuyên dùng - Nhanh & Ổn định)</option>
+              <option value="deepseek-v4-pro">deepseek-v4-pro</option>
+              <option value="deepseek-v4.1-flash">deepseek-v4.1-flash</option>
+              <option value="buihuuthang/claude-haiku-4-5">buihuuthang/claude-haiku-4-5</option>
+              <option value="buihuuthang/minimax-m2.5">buihuuthang/minimax-m2.5</option>
+              <option value="buihuuthang/qwen3-codex">buihuuthang/qwen3-codex</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Câu lệnh kiểm tra (Prompt)</label>
+            <textarea id="settings-test-prompt" class="form-control" rows="2">Hãy viết 1 câu giới thiệu ngắn 15 từ về sức mạnh của AI trong việc sản xuất video tự động.</textarea>
+          </div>
+
+          <button id="btn-test-prompt" class="btn-primary" style="margin-bottom: 16px; background: linear-gradient(135deg, #38BDF8, #818CF8); color: #000; font-weight: 700;" onclick="handleRunTestPrompt()">
+            🚀 Gửi Lệnh Test Model Ngay
+          </button>
+
+          <!-- Response Log Box -->
+          <div id="test-prompt-response-box" style="padding: 14px; background: #0B0F19; border-radius: 8px; border: 1px solid #334155; min-height: 100px;">
+            <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: #38BDF8; margin-bottom: 8px;">
+              <span>Phản hồi từ AI:</span>
+              <span id="test-prompt-latency" style="color: #94A3B8;">0 ms</span>
+            </div>
+            <div id="test-prompt-reply" style="font-size: 13px; color: #E2E8F0; line-height: 1.5; font-style: italic;">
+              Nhấn nút trên để gửi thử câu lệnh kiểm tra model...
+            </div>
+          </div>
+
+          <!-- Popular Models Badge Grid -->
+          <div style="margin-top: 20px;">
+            <div class="form-label" style="margin-bottom: 8px;">Các Model Khả Dụng Trên Gateway Của Bạn:</div>
+            <div id="settings-models-list" style="display: flex; flex-wrap: wrap; gap: 6px; max-height: 130px; overflow-y: auto;">
+              <span style="font-size: 12px; color: #64748B;">Đang tải danh sách model...</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Engine Status Summary Box -->
+      <div class="card" style="margin-top: 24px; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155;">
+        <div class="card-title" style="font-size: 15px;">⚙️ Tổng Quan Trạng Thái Hệ Thống Render & Voice</div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-top: 12px;">
+          <div style="padding: 12px; background: #0B0F19; border-radius: 8px; border: 1px solid #1E293B;">
+            <div style="font-weight: 700; color: #34D399; font-size: 13px;">🟢 Edge-TTS Tiếng Việt</div>
+            <div style="font-size: 11px; color: #94A3B8; margin-top: 4px;">Giọng NamMinhNeural (+20%), hoàn toàn miễn phí & không giới hạn</div>
+          </div>
+          <div style="padding: 12px; background: #0B0F19; border-radius: 8px; border: 1px solid #1E293B;">
+            <div style="font-weight: 700; color: #34D399; font-size: 13px;">🟢 Remotion Engine 1080x1920</div>
+            <div style="font-size: 11px; color: #94A3B8; margin-top: 4px;">Render cục bộ 30fps Full HD, hỗ trợ Bento HUD & Douyin</div>
+          </div>
+          <div style="padding: 12px; background: #0B0F19; border-radius: 8px; border: 1px solid #1E293B;">
+            <div style="font-weight: 700; color: #34D399; font-size: 13px;">🟢 Robot Quét Tin Tức RSS</div>
+            <div style="font-size: 11px; color: #94A3B8; margin-top: 4px;">Google News AI & TechCrunch cập nhật thời gian thực</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let timerInterval = null;
+    let secondsElapsed = 0;
+
+    function quickFillPrompt(text) {
+      document.getElementById('auto-prompt-input').value = text;
+      document.getElementById('auto-prompt-input').focus();
+    }
+
+    async function submitAutoPrompt() {
+      const prompt = document.getElementById('auto-prompt-input').value.trim();
+      if (!prompt) {
+        alert('Vui lòng nhập một câu lệnh hoặc chọn gợi ý bên dưới!');
+        return;
+      }
+
+      const btn = document.getElementById('btn-submit-auto');
+      btn.disabled = true;
+      btn.textContent = '⏳ ĐANG TỰ ĐỘNG TẠO...';
+
+      const progressBox = document.getElementById('auto-progress');
+      progressBox.style.display = 'block';
+
+      let autoSec = 0;
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        autoSec++;
+        const mins = String(Math.floor(autoSec / 60)).padStart(2, '0');
+        const secs = String(autoSec % 60).padStart(2, '0');
+        document.getElementById('auto-timer').textContent = `${mins}:${secs}`;
+      }, 1000);
+
+      try {
+        const res = await fetch('/api/auto', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt: prompt })
+        });
+        const data = await res.json();
+        pollAutoJob(data.job_id);
+      } catch (err) {
+        alert('Lỗi gửi tác vụ tự động: ' + err);
+        btn.disabled = false;
+        btn.textContent = '⚡ TỰ ĐỘNG TẠO VIDEO';
+        progressBox.style.display = 'none';
+        clearInterval(timerInterval);
+      }
+    }
+
+    async function pollAutoJob(jobId) {
+      const pollInterval = setInterval(async () => {
+        try {
+          const res = await fetch(`/api/job/${jobId}`);
+          const job = await res.json();
+          
+          document.getElementById('auto-log-text').textContent = job.log || 'Đang xử lý...';
+
+          if (job.status === 'completed') {
+            clearInterval(pollInterval);
+            clearInterval(timerInterval);
+
+            const btn = document.getElementById('btn-submit-auto');
+            btn.disabled = false;
+            btn.textContent = '⚡ TỰ ĐỘNG TẠO VIDEO';
+            document.getElementById('auto-progress').style.display = 'none';
+
+            // Switch to douyin tab and play
+            switchTab('douyin');
+            const player = document.getElementById('douyin-player');
+            player.src = job.video_url;
+            player.load();
+            player.play();
+            document.getElementById('preview-title').textContent = (job.title || '') + ' (' + job.video_name + ')';
+            document.getElementById('btn-download-video').href = job.video_url;
+
+            // Smooth scroll to preview player
+            document.querySelector('.preview-box').scrollIntoView({ behavior: 'smooth' });
+            alert('🎉 TỰ ĐỘNG HÓA THÀNH CÔNG 100%!\nVideo vừa tạo đã sẵn sàng và đang phát!');
+          } else if (job.status === 'failed') {
+            clearInterval(pollInterval);
+            clearInterval(timerInterval);
+            alert('❌ Có lỗi xảy ra trong quá trình tự động tạo:\n' + (job.error || 'Unknown error'));
+            const btn = document.getElementById('btn-submit-auto');
+            btn.disabled = false;
+            btn.textContent = '⚡ TỰ ĐỘNG TẠO VIDEO';
+            document.getElementById('auto-progress').style.display = 'none';
+          }
+        } catch (err) {
+          console.error('Polling error:', err);
+        }
+      }, 2000);
+    }
+
+    async function submitAutoCrawlNews() {
+      const btn = document.getElementById('btn-submit-crawl');
+      btn.disabled = true;
+      btn.textContent = '⏳ ĐANG QUÉT TIN & TỰ DỰNG VIDEO...';
+
+      const progressBox = document.getElementById('crawl-progress');
+      progressBox.style.display = 'block';
+
+      let crawlSec = 0;
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        crawlSec++;
+        const mins = String(Math.floor(crawlSec / 60)).padStart(2, '0');
+        const secs = String(crawlSec % 60).padStart(2, '0');
+        document.getElementById('crawl-timer').textContent = `${mins}:${secs}`;
+      }, 1000);
+
+      try {
+        const dur = parseInt(document.getElementById('crawl-duration-select')?.value || '120', 10);
+        const res = await fetch('/api/auto-crawl-news', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ min_duration: dur })
+        });
+        const data = await res.json();
+        pollCrawlJob(data.job_id);
+      } catch (err) {
+        alert('Lỗi khởi động quét tin tự động: ' + err);
+        btn.disabled = false;
+        btn.textContent = '🚀 TỰ ĐỘNG QUÉT & TẠO VIDEO NGAY';
+        progressBox.style.display = 'none';
+        clearInterval(timerInterval);
+      }
+    }
+
+    async function pollCrawlJob(jobId) {
+      let errorCount = 0;
+      const pollInterval = setInterval(async () => {
+        try {
+          const res = await fetch(`/api/job/${jobId}`);
+          if (!res.ok) {
+            errorCount++;
+            if (errorCount > 10) throw new Error("Mất kết nối máy chủ");
+            return;
+          }
+          errorCount = 0;
+          const job = await res.json();
+
+          document.getElementById('crawl-log-text').textContent = job.log || 'Đang xử lý...';
+
+          if (job.status === 'completed') {
+            clearInterval(pollInterval);
+            clearInterval(timerInterval);
+
+            const btn = document.getElementById('btn-submit-crawl');
+            btn.disabled = false;
+            btn.textContent = '🚀 TỰ ĐỘNG QUÉT & TẠO VIDEO NGAY';
+            document.getElementById('crawl-progress').style.display = 'none';
+
+            // Switch to douyin tab and play
+            switchTab('douyin');
+            const player = document.getElementById('douyin-player');
+            player.src = job.video_url;
+            player.load();
+            player.play();
+            document.getElementById('preview-title').textContent = (job.title || '') + ' (' + job.video_name + ')';
+            document.getElementById('btn-download-video').href = job.video_url;
+
+            // Smooth scroll to preview player
+            document.querySelector('.preview-box').scrollIntoView({ behavior: 'smooth' });
+            alert('🎉 TỰ ĐỘNG HÓA HOÀN TẤT!\nĐã quét tin AI mới nhất, lọc trùng và dựng video thành công!');
+          } else if (job.status === 'failed') {
+            clearInterval(pollInterval);
+            clearInterval(timerInterval);
+            alert('❌ Có lỗi xảy ra trong quá trình tự động quét & dựng video:\n' + (job.error || 'Unknown error'));
+            const btn = document.getElementById('btn-submit-crawl');
+            btn.disabled = false;
+            btn.textContent = '🚀 TỰ ĐỘNG QUÉT & TẠO VIDEO NGAY';
+            document.getElementById('crawl-progress').style.display = 'none';
+          }
+        } catch (err) {
+          console.error('Polling crawl error:', err);
+        }
+      }, 2000);
+    }
+
+    function switchTab(name) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(p => p.style.display = 'none');
+      
+      if (name === 'douyin') {
+        const btn = document.getElementById('tab-btn-douyin') || document.querySelectorAll('.tab-btn')[0];
+        btn.classList.add('active');
+        document.getElementById('tab-douyin').style.display = 'grid';
+      } else if (name === 'news') {
+        const btn = document.getElementById('tab-btn-news') || document.querySelectorAll('.tab-btn')[1];
+        btn.classList.add('active');
+        document.getElementById('tab-news').style.display = 'grid';
+      } else if (name === 'gallery') {
+        const btn = document.getElementById('tab-btn-gallery') || document.querySelectorAll('.tab-btn')[2];
+        btn.classList.add('active');
+        document.getElementById('tab-gallery').style.display = 'grid';
+        loadGallery();
+      } else if (name === 'settings') {
+        const btn = document.getElementById('tab-btn-settings') || document.querySelectorAll('.tab-btn')[3];
+        btn.classList.add('active');
+        document.getElementById('tab-settings').style.display = 'block';
+        loadFullSettingsStatus();
+      }
+    }
+
+    function toggleKeyVisibility() {
+      const input = document.getElementById('settings-api-key');
+      input.type = input.type === 'password' ? 'text' : 'password';
+    }
+
+    async function loadFullSettingsStatus() {
+      const badge = document.getElementById('settings-status-badge');
+      const diag = document.getElementById('settings-diagnostic-content');
+      const modelsList = document.getElementById('settings-models-list');
+
+      badge.innerHTML = '⏳ Đang kiểm tra...';
+      try {
+        const res = await fetch('/api/buihuuthang/status');
+        const data = await res.json();
+
+        if (data.status === 'connected') {
+          badge.style.background = 'rgba(16, 185, 129, 0.15)';
+          badge.style.color = '#34D399';
+          badge.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+          badge.innerHTML = `🟢 Đã kết nối (${data.latency_ms || 0}ms)`;
+
+          diag.innerHTML = `
+✅ TRẠNG THÁI: Kết nối thành công!
+📡 CỔNG GATEWAY: ${data.base_url}
+🔑 KHÓA API: ${data.masked_key}
+⚡ ĐỘ TRỄ MẠNG: ${data.latency_ms || 0} ms
+📚 TỔNG SỐ MODEL KHẢ DỤNG: ${data.total_models || 0}
+          `.trim().replace(/\n/g, '<br>');
+
+          if (data.popular_models && data.popular_models.length > 0) {
+            // Auto populate select dropdown with real models from gateway
+            const testSelect = document.getElementById('settings-test-model');
+            if (testSelect) {
+              testSelect.innerHTML = '';
+              data.popular_models.forEach(m => {
+                const opt = document.createElement('option');
+                opt.value = m;
+                opt.textContent = m + (m === 'deepseek-v4-flash' ? ' (Khuyên dùng - Nhanh & Ổn định)' : '');
+                testSelect.appendChild(opt);
+              });
+              if (data.popular_models.includes('deepseek-v4-flash')) {
+                testSelect.value = 'deepseek-v4-flash';
+              }
+            }
+
+            modelsList.innerHTML = '';
+            data.popular_models.forEach(m => {
+              const chip = document.createElement('span');
+              chip.className = 'chip-btn';
+              chip.style.fontSize = '11px';
+              chip.style.padding = '4px 10px';
+              chip.style.cursor = 'pointer';
+              chip.textContent = m;
+              chip.onclick = () => selectTestModel(m);
+              modelsList.appendChild(chip);
+            });
+          }
+        } else if (data.status === 'missing_key') {
+          badge.style.background = 'rgba(245, 158, 11, 0.15)';
+          badge.style.color = '#FBBF24';
+          badge.style.borderColor = 'rgba(245, 158, 11, 0.3)';
+          badge.innerHTML = '🟡 Chưa có API Key';
+
+          diag.innerHTML = `
+⚠️ CHƯA CÓ API KEY
+Hệ thống hiện tại đang sử dụng Free Offline Engine (Edge-TTS + Remotion).
+Hãy dán API Key (sk-...) từ https://api.buihuuthang.com để kích hoạt LLM kịch bản và sinh ảnh.
+          `.trim().replace(/\n/g, '<br>');
+          modelsList.innerHTML = '<span style="color:#64748B; font-size:12px;">Chưa có key để tải danh sách model.</span>';
+        } else {
+          badge.style.background = 'rgba(239, 68, 68, 0.15)';
+          badge.style.color = '#F87171';
+          badge.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+          badge.innerHTML = '🔴 Lỗi xác thực';
+
+          diag.innerHTML = `
+❌ LỖI KẾT NỐI / XÁC THỰC:
+Chi tiết: ${data.message || 'Lỗi không xác định'}
+Cổng Base URL: ${data.base_url}
+Thời gian trễ: ${data.latency_ms || 0} ms
+          `.trim().replace(/\n/g, '<br>');
+          modelsList.innerHTML = '<span style="color:#F87171; font-size:12px;">Không thể tải danh sách model do lỗi xác thực.</span>';
+        }
+      } catch (e) {
+        badge.innerHTML = '⚪ Lỗi server';
+        diag.innerHTML = 'Lỗi kết nối tới backend: ' + e;
+      }
+    }
+
+    function selectTestModel(modelName) {
+      const sel = document.getElementById('settings-test-model');
+      let found = false;
+      for (let i = 0; i < sel.options.length; i++) {
+        if (sel.options[i].value === modelName) {
+          sel.selectedIndex = i;
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        const opt = document.createElement('option');
+        opt.value = modelName;
+        opt.textContent = modelName;
+        sel.appendChild(opt);
+        sel.value = modelName;
+      }
+      handleRunTestPrompt();
+    }
+
+    async function handleSaveAndCheckKey() {
+      const key = document.getElementById('settings-api-key').value.trim();
+      const baseUrl = document.getElementById('settings-base-url').value.trim() || 'https://api.buihuuthang.com/v1';
+
+      if (!key) {
+        alert('Vui lòng dán mã API Key dạng sk-...!');
+        return;
+      }
+
+      const badge = document.getElementById('settings-status-badge');
+      badge.innerHTML = '⏳ Đang kiểm tra...';
+      const diag = document.getElementById('settings-diagnostic-content');
+      diag.innerHTML = 'Đang gọi kiểm tra trực tiếp tới cổng: ' + baseUrl + '...';
+
+      try {
+        const res = await fetch('/api/buihuuthang/save', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ api_key: key, base_url: baseUrl })
+        });
+        const data = await res.json();
+        alert(data.message);
+        loadFullSettingsStatus();
+        loadBuiHuuThangStatus();
+      } catch (e) {
+        alert('Lỗi: ' + e);
+        loadFullSettingsStatus();
+      }
+    }
+
+    async function handleClearKey() {
+      if (!confirm('Bạn có chắc chắn muốn xóa API Key khỏi hệ thống và quay về Free Engine?')) return;
+      try {
+        await fetch('/api/buihuuthang/save', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ api_key: '', base_url: 'https://api.buihuuthang.com/v1' })
+        });
+        document.getElementById('settings-api-key').value = '';
+        alert('Đã xóa API Key thành công!');
+        loadFullSettingsStatus();
+        loadBuiHuuThangStatus();
+      } catch (e) {
+        alert('Lỗi: ' + e);
+      }
+    }
+
+    async function handleRunTestPrompt() {
+      const prompt = document.getElementById('settings-test-prompt').value.trim();
+      const model = document.getElementById('settings-test-model').value;
+      const btn = document.getElementById('btn-test-prompt');
+      const replyBox = document.getElementById('test-prompt-reply');
+      const latSpan = document.getElementById('test-prompt-latency');
+
+      if (!prompt) {
+        alert('Vui lòng nhập câu lệnh kiểm tra!');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = '⏳ Đang gọi model ' + model + '...';
+      replyBox.innerHTML = '<span style="color:#94A3B8;">Đang chờ phản hồi từ api.buihuuthang.com...</span>';
+      latSpan.textContent = '...';
+
+      try {
+        const res = await fetch('/api/buihuuthang/test-prompt', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt: prompt, model: model })
+        });
+        const data = await res.json();
+
+        if (data.status === 'success') {
+          replyBox.style.color = '#38BDF8';
+          replyBox.style.fontStyle = 'normal';
+          replyBox.innerHTML = `<strong>[${data.model}]</strong>: "${data.reply}"`;
+          latSpan.textContent = `${data.latency_ms} ms (${data.tokens || 0} tokens)`;
+        } else {
+          replyBox.style.color = '#F87171';
+          replyBox.style.fontStyle = 'normal';
+          replyBox.innerHTML = `❌ ${data.message || 'Lỗi gọi model'}`;
+          latSpan.textContent = `${data.latency_ms || 0} ms`;
+        }
+      } catch (e) {
+        replyBox.style.color = '#F87171';
+        replyBox.innerHTML = 'Lỗi kết nối: ' + e;
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '🚀 Gửi Lệnh Test Model Ngay';
+      }
+    }
+
+    async function loadSamples() {
+      try {
+        const res = await fetch('/api/samples');
+        const samples = await res.json();
+        const sel = document.getElementById('douyin-sample-select');
+        sel.innerHTML = '<option value="">-- Chọn video mẫu hoặc kho video ghép cảnh --</option>';
+        samples.forEach(s => {
+          const opt = document.createElement('option');
+          opt.value = s.path;
+          opt.textContent = s.is_pool ? s.name : `${s.name} (${s.size_mb} MB)`;
+          sel.appendChild(opt);
+        });
+        if (samples.length > 0) {
+          sel.value = samples[0].path;
+          document.getElementById('douyin-video-path').value = samples[0].path;
+        }
+      } catch (e) {
+        console.error('Error loading samples:', e);
+      }
+    }
+
+    function onSelectSample(val) {
+      if (val) {
+        document.getElementById('douyin-video-path').value = val;
+      }
+    }
+
+    async function handleFileUpload(input) {
+      if (!input.files || input.files.length === 0) return;
+      const btn = input.nextElementSibling;
+      btn.textContent = `⏳ Đang tải ${input.files.length} video...`;
+      
+      const uploadedPaths = [];
+      try {
+        for (let i = 0; i < input.files.length; i++) {
+          const file = input.files[i];
+          const formData = new FormData();
+          formData.append('file', file);
+          const res = await fetch('/api/upload-reference', { method: 'POST', body: formData });
+          const data = await res.json();
+          uploadedPaths.push(data.path);
+        }
+        document.getElementById('douyin-video-path').value = uploadedPaths.join(',');
+        btn.textContent = `✅ Đã nạp ${uploadedPaths.length} video B-Roll`;
+        loadSamples();
+      } catch (err) {
+        alert('Lỗi khi tải file: ' + err);
+        btn.textContent = '📁 Chọn 1 Hoặc Nhiều Video';
+      }
+    }
+
+    function fillSampleScript() {
+      document.getElementById('douyin-script').value = 
+`Mang một chiếc vali rỗng sang, nhưng xách về tới ba chiếc vali đầy ắp đồ!
+Trào lưu China Haul đang bùng nổ dữ dội và càn quét mạng xã hội toàn cầu.
+Hàng nghìn du khách phương Tây đổ xô sang các khu chợ và trung tâm thương mại lớn.
+Từ thời trang thiết kế, đồ chơi nghệ thuật cho tới các loại dược liệu nội địa.
+Tất cả đều có mức giá rẻ hơn tới 70% so với mua tại quê nhà của họ.
+Các video gắn hashtag China Haul hiện đã vượt mốc hơn 110 triệu lượt xem trên TikTok.
+Người thì khen ngợi vì tiết kiệm cả nghìn đô, người lại lo ngại về xu hướng tiêu dùng quá đà.
+Còn bạn nghĩ sao về cơn sốt mua sắm này? Hãy để lại bình luận nhé!`;
+    }
+
+    async function submitDouyinRemake() {
+      const videoPath = document.getElementById('douyin-video-path').value.trim();
+      const scriptText = document.getElementById('douyin-script').value.trim();
+      const sourceCredit = document.getElementById('douyin-source').value.trim();
+      const [voice, rate] = document.getElementById('douyin-voice').value.split('|');
+
+      if (!videoPath) {
+        alert('Vui lòng chọn hoặc nhập đường dẫn file video gốc!');
+        return;
+      }
+      if (!scriptText) {
+        alert('Vui lòng nhập kịch bản thuyết minh tiếng Việt!');
+        return;
+      }
+
+      const btn = document.getElementById('btn-submit-douyin');
+      btn.disabled = true;
+      btn.textContent = '⏳ ĐANG RENDER VIDEO...';
+
+      const progressBox = document.getElementById('douyin-progress');
+      progressBox.style.display = 'block';
+
+      secondsElapsed = 0;
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        secondsElapsed++;
+        const mins = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
+        const secs = String(secondsElapsed % 60).padStart(2, '0');
+        document.getElementById('douyin-timer').textContent = `${mins}:${secs}`;
+      }, 1000);
+
+      try {
+        const res = await fetch('/api/remake', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            video_path: videoPath,
+            script_text: scriptText,
+            source_credit: sourceCredit,
+            voice: voice,
+            rate: rate
+          })
+        });
+        const data = await res.json();
+        pollJob(data.job_id, 'douyin');
+      } catch (err) {
+        alert('Lỗi gửi tác vụ: ' + err);
+        btn.disabled = false;
+        btn.textContent = '🚀 BẮT ĐẦU TẠO VIDEO REMAKE';
+        progressBox.style.display = 'none';
+        clearInterval(timerInterval);
+      }
+    }
+
+    async function submitNews() {
+      const inputVal = document.getElementById('news-input').value.trim();
+      const theme = document.getElementById('news-theme').value;
+      const [voice, rate] = document.getElementById('news-voice').value.split('|');
+
+      if (!inputVal) {
+        alert('Vui lòng nhập URL bài báo hoặc đoạn nội dung tin tức!');
+        return;
+      }
+
+      const btn = document.getElementById('btn-submit-news');
+      btn.disabled = true;
+      btn.textContent = '⏳ ĐANG XỬ LÝ & RENDER...';
+
+      const progressBox = document.getElementById('news-progress');
+      progressBox.style.display = 'block';
+
+      secondsElapsed = 0;
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        secondsElapsed++;
+        const mins = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
+        const secs = String(secondsElapsed % 60).padStart(2, '0');
+        document.getElementById('news-timer').textContent = `${mins}:${secs}`;
+      }, 1000);
+
+      try {
+        const res = await fetch('/api/news', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            url_or_text: inputVal,
+            theme: theme,
+            voice: voice,
+            rate: rate
+          })
+        });
+        const data = await res.json();
+        pollJob(data.job_id, 'news');
+      } catch (err) {
+        alert('Lỗi gửi tác vụ: ' + err);
+        btn.disabled = false;
+        btn.textContent = '⚡ TẠO VIDEO TIN TỨC CHUYÊN NGHIỆP';
+        progressBox.style.display = 'none';
+        clearInterval(timerInterval);
+      }
+    }
+
+    async function pollJob(jobId, type) {
+      const pollInterval = setInterval(async () => {
+        try {
+          const res = await fetch(`/api/job/${jobId}`);
+          const job = await res.json();
+          
+          if (type === 'douyin') {
+            document.getElementById('douyin-log-text').textContent = job.log || 'Đang xử lý...';
+          } else {
+            document.getElementById('news-log-text').textContent = job.log || 'Đang xử lý...';
+          }
+
+          if (job.status === 'completed') {
+            clearInterval(pollInterval);
+            clearInterval(timerInterval);
+            if (type === 'douyin') {
+              const btn = document.getElementById('btn-submit-douyin');
+              btn.disabled = false;
+              btn.textContent = '🚀 BẮT ĐẦU TẠO VIDEO REMAKE';
+              document.getElementById('douyin-progress').style.display = 'none';
+
+              const player = document.getElementById('douyin-player');
+              player.src = job.video_url;
+              player.load();
+              player.play();
+              document.getElementById('preview-title').textContent = job.video_name;
+              document.getElementById('btn-download-video').href = job.video_url;
+              alert('🎉 Video Remake đã tạo thành công!');
+            } else {
+              const btn = document.getElementById('btn-submit-news');
+              btn.disabled = false;
+              btn.textContent = '⚡ TẠO VIDEO TIN TỨC CHUYÊN NGHIỆP';
+              document.getElementById('news-progress').style.display = 'none';
+
+              const player = document.getElementById('news-player');
+              player.src = job.video_url;
+              player.load();
+              player.play();
+              document.getElementById('news-preview-title').textContent = job.video_name;
+              document.getElementById('btn-download-news').href = job.video_url;
+              alert('🎉 Video Tin tức đã tạo thành công!');
+            }
+          } else if (job.status === 'failed') {
+            clearInterval(pollInterval);
+            clearInterval(timerInterval);
+            alert('❌ Có lỗi xảy ra trong quá trình render:\n' + (job.error || 'Unknown error'));
+            if (type === 'douyin') {
+              const btn = document.getElementById('btn-submit-douyin');
+              btn.disabled = false;
+              btn.textContent = '🚀 BẮT ĐẦU TẠO VIDEO REMAKE';
+              document.getElementById('douyin-progress').style.display = 'none';
+            } else {
+              const btn = document.getElementById('btn-submit-news');
+              btn.disabled = false;
+              btn.textContent = '⚡ TẠO VIDEO TIN TỨC CHUYÊN NGHIỆP';
+              document.getElementById('news-progress').style.display = 'none';
+            }
+          }
+        } catch (err) {
+          console.error('Polling error:', err);
+        }
+      }, 2000);
+    }
+
+    async function loadGallery() {
+      const container = document.getElementById('gallery-container');
+      container.innerHTML = '<div style="color:var(--text-muted);">Đang tải danh sách video...</div>';
+      try {
+        const res = await fetch('/api/videos');
+        const vids = await res.json();
+        container.innerHTML = '';
+        if (vids.length === 0) {
+          container.innerHTML = '<div style="color:var(--text-muted);">Chưa có video nào được xuất.</div>';
+          return;
+        }
+        vids.forEach(v => {
+          const card = document.createElement('div');
+          card.className = 'gallery-card';
+          card.innerHTML = `
+            <div class="gallery-thumb">
+              <video src="${v.url}" controls></video>
+            </div>
+            <div style="font-weight:700; font-size:14px; word-break:break-all;">${v.name}</div>
+            <div class="gallery-meta">
+              <span>${v.size_mb} MB</span>
+              <span>${v.created_at}</span>
+            </div>
+            <a href="${v.url}" download class="btn-download">⬇️ Tải Về</a>
+          `;
+          container.appendChild(card);
+        });
+      } catch (err) {
+        container.innerHTML = '<div style="color:var(--danger);">Lỗi tải danh sách video!</div>';
+      }
+    }
+
+    async function loadBuiHuuThangStatus() {
+      const pill = document.getElementById('buihuuthang-status-pill');
+      try {
+        const res = await fetch('/api/buihuuthang/status');
+        const data = await res.json();
+        if (data.status === 'connected') {
+          pill.style.background = 'rgba(16, 185, 129, 0.15)';
+          pill.style.color = '#34D399';
+          pill.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+          pill.innerHTML = `🟢 Đã kết nối (${data.total_models || ''} models: ${data.masked_key})`;
+        } else if (data.status === 'missing_key') {
+          pill.style.background = 'rgba(245, 158, 11, 0.15)';
+          pill.style.color = '#FBBF24';
+          pill.style.borderColor = 'rgba(245, 158, 11, 0.3)';
+          pill.innerHTML = '🟡 Chưa nhập Key (Đang dùng Free Engine)';
+        } else {
+          pill.style.background = 'rgba(239, 68, 68, 0.15)';
+          pill.style.color = '#F87171';
+          pill.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+          pill.innerHTML = `🔴 ${data.message || 'Lỗi kết nối'}`;
+        }
+      } catch (e) {
+        pill.innerHTML = '⚪ Chưa xác định';
+      }
+    }
+
+    async function saveBuiHuuThangKey() {
+      const input = document.getElementById('buihuuthang-key-input');
+      const key = input.value.trim();
+      if (!key) {
+        alert('Vui lòng nhập API Key sk-... từ https://api.buihuuthang.com!');
+        return;
+      }
+      const pill = document.getElementById('buihuuthang-status-pill');
+      pill.innerHTML = '⏳ Đang kiểm tra kết nối tới api.buihuuthang.com...';
+      try {
+        const res = await fetch('/api/buihuuthang/save', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ api_key: key, base_url: 'https://api.buihuuthang.com/v1' })
+        });
+        const data = await res.json();
+        alert(data.message);
+        loadBuiHuuThangStatus();
+        input.value = '';
+      } catch (e) {
+        alert('Lỗi: ' + e);
+        loadBuiHuuThangStatus();
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadSamples();
+      fillSampleScript();
+      loadBuiHuuThangStatus();
+    });
+  </script>
+</body>
+</html>

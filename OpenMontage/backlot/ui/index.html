@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenMontage Studio — Library & Living Storyboard</title>
+<link rel="stylesheet" href="/ui/board.css">
+<style>
+  .btn-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-family: var(--mono);
+    font-size: calc(11px * var(--fs-scale));
+    letter-spacing: .04em;
+    cursor: pointer;
+    transition: all .15s ease;
+    text-decoration: none;
+  }
+  .btn-action:hover {
+    background: var(--surface-3);
+    border-color: var(--amber);
+    color: var(--amber);
+  }
+  .btn-action.primary {
+    background: var(--amber);
+    color: #12100e;
+    border-color: var(--amber);
+    font-weight: 600;
+  }
+  .btn-action.primary:hover {
+    background: #f7b752;
+    color: #000;
+  }
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .status-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    margin: 18px 0 24px 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: var(--mono);
+    font-size: calc(11px * var(--fs-scale));
+    color: var(--text-2);
+    flex-wrap: wrap;
+  }
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--surface-2);
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-soft);
+  }
+  .status-pill.ok {
+    border-color: rgba(79, 194, 131, 0.4);
+    color: var(--green);
+  }
+  .form-group {
+    margin-bottom: 16px;
+  }
+  .form-group label {
+    display: block;
+    font-family: var(--mono);
+    font-size: calc(11px * var(--fs-scale));
+    letter-spacing: .06em;
+    color: var(--text-2);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+  .form-control {
+    width: 100%;
+    padding: 9px 12px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: calc(13px * var(--fs-scale));
+    outline: none;
+    box-sizing: border-box;
+  }
+  .form-control:focus {
+    border-color: var(--amber);
+  }
+  .form-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a0a0a9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 14px;
+    cursor: pointer;
+  }
+  .form-desc {
+    font-size: calc(10px * var(--fs-scale));
+    color: var(--text-3);
+    margin-top: 4px;
+  }
+  .modal-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.6);
+  }
+  .modal-card h2 {
+    font-family: var(--mono);
+    font-size: calc(16px * var(--fs-scale));
+    letter-spacing: .05em;
+    color: var(--amber);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  .modal-card p.sub {
+    color: var(--text-2);
+    font-size: calc(12px * var(--fs-scale));
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+  .provider-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+    margin: 16px 0;
+  }
+  .provider-item {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: calc(11px * var(--fs-scale));
+  }
+  .provider-item.active {
+    border-color: rgba(79, 194, 131, 0.4);
+  }
+  .video-modal-wrap {
+    max-width: 900px;
+    width: 100%;
+    background: #000;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .video-modal-wrap video {
+    width: 100%;
+    display: block;
+    max-height: 75vh;
+  }
+  .video-modal-header {
+    background: var(--surface);
+    padding: 12px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: calc(12px * var(--fs-scale));
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="slate">
+    <div class="clapper"></div>
+    <div>
+      <span class="wordmark">OpenMontage Studio</span>
+      <h1>Library & Live Storyboards</h1>
+    </div>
+    <span class="chip" id="count">0 projects</span>
+    <div class="spacer"></div>
+    <div class="header-actions">
+      <button class="btn-action primary" id="btnNewProduction">＋ New Production</button>
+      <button class="btn-action" id="btnToolsMatrix">🛠 Tools & Providers</button>
+      <button class="btn-action" id="btnDemos">🎬 Demos</button>
+      <a href="http://localhost:3000" target="_blank" class="btn-action" title="Open Remotion Studio">⚡ Remotion Studio</a>
+    </div>
+    <span class="live idle" id="liveBadge"><span class="dot"></span><span id="liveText">IDLE</span></span>
+  </header>
+
+  <div class="status-bar" id="statusBar">
+    <span>SYSTEM STATUS:</span>
+    <span class="status-pill ok" id="statPython">Python 3.14.3 ✓</span>
+    <span class="status-pill ok" id="statNode">Node.js 24 ✓</span>
+    <span class="status-pill ok" id="statFfmpeg">FFmpeg 9.0 ✓</span>
+    <span class="status-pill ok" id="statRemotion">Remotion Studio :3000 ✓</span>
+    <span class="status-pill ok" id="statPipelines">13 Pipelines Active ✓</span>
+    <span class="status-pill ok" id="statTts">Piper-TTS Local ✓</span>
+  </div>
+
+  <div class="lib-grid" id="grid"></div>
+  <p class="hint" id="empty" style="display:none">No projects yet — click "＋ New Production" above to launch a video pipeline.</p>
+</div>
+
+<div class="modal-bg" id="modal"></div>
+
+<script type="module" src="/ui/library.js"></script>
+</body>
+</html>
